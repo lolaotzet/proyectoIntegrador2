@@ -13,6 +13,13 @@ export default class Login extends Component {
       error:""
     };
   }
+  componentDidMount(){
+    auth.onAuthStateChanged(user => {
+        if(user){
+            this.props.navigation.navigate('HomeMenu')
+        }
+      })
+  }
 
   onSubmit() {
     if(!this.state.email.includes("@")){

@@ -13,6 +13,13 @@ export default class Register extends Component {
       error: ""
     };
   }
+    componentDidMount(){
+      auth.onAuthStateChanged(user => {
+          if(user){
+              this.props.navigation.navigate('HomeMenu')
+          }
+        })
+    }
 
   onSubmit() {
    auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -68,7 +75,7 @@ export default class Register extends Component {
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
           />
-
+        <Text styles={styles.errorText}>{this.state.error}</Text>
           <Pressable style={styles.registerButton} onPress={() => this.onSubmit()}>
             <Text style={styles.buttonText}>Registrarme</Text>
           </Pressable>
