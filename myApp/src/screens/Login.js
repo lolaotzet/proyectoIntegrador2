@@ -72,14 +72,6 @@ export default class Login extends Component {
             onPress={() => this.props.navigation.navigate('Register')}>
             <Text style={styles.buttonText}>Ir a registro</Text>
           </Pressable>
-
-          <Pressable
-            style={styles.buttonA}
-            onPress={() =>
-              this.props.navigation.navigate('HomeMenu', { screen: 'Home' })
-            }>
-            <Text style={styles.buttonText}>Entrar a la app</Text>
-          </Pressable>
         </View>
       </View>
     );
