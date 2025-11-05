@@ -38,7 +38,7 @@ class Home extends Component {
             data={this.state.posts}
             keyExtractor={(item)=>item.id.toString()}
             renderItem={({item}) =>
-              <Post id={item.id} post={item.data} /> // a Post le llega una prop post que contiene el objeto id, text, email y createdAt
+              <Post id={item.id} post={item.data} navigation={this.props.navigation}/> // a Post le llega una prop post que contiene el objeto id, text, email y createdAt
             }
           />
         </View>

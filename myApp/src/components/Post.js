@@ -35,6 +35,10 @@ class Post extends Component {
       .then(() => this.setState({ liked: false }));
   }
 
+    handleComentar() {
+        this.props.navigation.navigate('Comentarios', { postId: this.props.id });
+    };
+
 
   render(){
     const likes = this.props.post.likes || [];
@@ -59,6 +63,9 @@ class Post extends Component {
             )
           }
         </View>
+        <Pressable onPress={()=>this.handleComentar()} style={styles.btnSecondary}>
+            <Text style={styles.btnText}>💬 Comentar</Text>
+        </Pressable>
       </View>
     );
   }

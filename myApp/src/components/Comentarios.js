@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Pressable, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { db, auth } from './config';
+import firebase from 'firebase/compat/app';
 
 export default class Comentarios extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      comentario: '',
+      comentarios: [],
+      text: '',
+      loading: true,
+      error: ''
     };
   }
 
+  componentDidMount() {
+    const postId = this.props.route.params.postId
+
+      if (!postId) {
+        this.setState({ loading: false, error: 'Falta postId' });
+      return;
+    }
+
+    
+  }
   enviarComentario() {
     console.log('Nuevo comentario:', this.state);
     this.setState({comentario: '' });
