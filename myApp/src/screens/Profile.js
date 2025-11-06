@@ -1,19 +1,58 @@
 import React, { Component } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
-import { auth } from "../firebase/config";
+import { View, Text, Pressable, StyleSheet, FlatList } from "react-native";
+import { auth, db } from "../firebase/config";
 
 class Profile extends Component {
+  constructor(props){
+    super(props);
+    this.state = { posts: [], nombreUsuario: "" };
+  }
+  componentDidMount(){
+    const user = auth.currentUser
+    if(user){
+      db.collection("posts").where("email","==",user.email).onSnapshot(
+        doc => {
+          let posts = [];
+          doc.forEach(doc => {
+            posts.push({id:doc.id,data:doc.data()})
+          });
+          this.setState({
+            posts:posts
+          })
+        }
+      )
+      db.collection("users").where("email","==",user.email).onSnapshot(
+        doc => {
+          let nombre = ""
+          doc.forEach(doc => {
+            nombre = doc.data().nombreUsuario;
+          });
+          this.setState({ nombreUsuario: nombre });
+        }
+      )
+    }
+  }
     logout(){
         this.props.navigation.navigate("Login");
         auth.signOut()
     }
+   
   render() {
+    const user = auth.currentUser;
     return (
       <View style={styles.page}>
         <View style={styles.card}>
         <Text style={styles.title}>Mi Perfil</Text>
+        <Text>Usuario:{this.state.nombreUsuario}</Text>
+        <Text>Email:{user.email}</Text>
+        <Text>Mis posteos</Text>
+        <FlatList
+        data={this.state.posts}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({item}) => <Text>{item.data.text} </Text>}>
+        </FlatList>
         <Pressable style={styles.btnOrange} onPress={() => this.logout()}> 
-          <Text style={styles.btnTxt}>Desloguearse</Text>
+          <Text style={styles.btnTxt}>Cerrar Sesión</Text>
         </Pressable>
       </View>
       </View>

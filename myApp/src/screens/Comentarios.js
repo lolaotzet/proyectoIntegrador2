@@ -20,9 +20,6 @@ export default class Comentarios extends Component {
       this.setState({ loading: false, error: 'Falta postId' });
     return;
     }
-
-    
-
     db.collection('comments')
       .where('postId', '==', postId)
       .onSnapshot(
@@ -33,16 +30,14 @@ export default class Comentarios extends Component {
               id: doc.id, 
               data: doc.data() 
             });
-            this.setState({ comentarios: comentarios, loading: false, error: '' });
           });
-          
+           this.setState({ comentarios: comentarios, loading: false, error: '' });
         },
         () => this.setState({ loading: false, error: 'No se pudieron cargar los comentarios' })
       );
 
   }
   
-  // para crear un nuevo comentario
   handleAdd() {
     const postId = this.props.route.params.postId
 
