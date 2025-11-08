@@ -76,15 +76,14 @@ class Comentarios extends Component {
     const postDate = new Date(p.createdAt).toLocaleString()
 
     return (
-      <View style={styles.container}>
+      <View style={styles.panel}>
 
         {/* Post */}
-
-        <View>
-          <Text>{autor} posteó</Text>
-          <Text>{cuerpo}</Text>
-          <Text>❤️ {likes} likes</Text>
-          <Text>{postDate}</Text> 
+        <View style={styles.postCard}>
+          <Text style={styles.postTop}>{autor} posteó</Text>
+          <Text style={styles.postText}>{cuerpo}</Text>
+          <Text style={styles.postLikes}>❤️ {likes} likes</Text>
+          <Text style={styles.postMeta}>{postDate}</Text> 
         </View>
 
         {/* Lista de comentarios del post */}
@@ -101,10 +100,10 @@ class Comentarios extends Component {
             const createdAt = item.data.createdAt
 
             return (
-              <View>
-                <Text>{email}</Text>
-                <Text>{text}</Text>
-                <Text>{new Date(createdAt).toLocaleString()}</Text> 
+              <View style={styles.commentBox}>
+                <Text style={styles.commentEmail}>{email}</Text>
+                <Text style={styles.commentText}>{text}</Text>
+                <Text style={styles.commentDate}>{new Date(createdAt).toLocaleString()}</Text> 
               </View>
             )
           }}
@@ -122,11 +121,11 @@ class Comentarios extends Component {
             placeholder="Escribí tu comentario..."
             value={text}
             onChangeText={(v) => this.setState({ text: v })}
-            style={styles.input}
+            style={styles.inputRounded}
             multiline
           />
-          <Pressable onPress={() => this.handleAdd()} style={styles.btn}>
-            <Text style={styles.btnText}>Publicar comentario</Text>
+          <Pressable onPress={() => this.handleAdd()} style={styles.commentButton}>
+            <Text style={styles.buttonText}>Publicar comentario</Text>
           </Pressable>
         </View>
 
@@ -136,67 +135,95 @@ class Comentarios extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30,
-  },
-  card: {
+  panel: {
     backgroundColor: '#fff',
-    borderRadius: 20,
-    width: '100%',
-    padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#2f3640',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  input: {
-    borderColor: '#ccc',
+    borderRadius: 22,
+    padding: 16,
+    marginTop: 10,
+    width: '92%',
+    alignSelf: 'center',
     borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 15,
-    fontSize: 16,
-    color: '#2f3640',
-    backgroundColor: '#f9f9f9',
+    borderColor: '#e3e3e3',
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
   },
-  textArea: {
-    height: 100,
-    textAlignVertical: 'top',
+
+  // Post (encabezado dentro del panel)
+  postCard: {
+    paddingVertical: 4,
+    marginBottom: 8,
+  },
+  postTop: { 
+    opacity: 0.7, 
+    marginBottom: 6 
+  },
+  postText: { 
+    fontSize: 18, 
+    marginBottom: 8 
+  },
+  postLikes: { 
+    fontWeight: '600', 
+    marginBottom: 4 
+  },
+  postMeta: { 
+    fontSize: 12, 
+    opacity: 0.6 
+  },
+
+  // Comentarios
+  commentBox: {
+    borderRadius: 10,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#e9e9e9',
+    width: '100%', 
+    alignSelf: 'auto'
+  },
+  commentEmail: { 
+    opacity: 0.7, 
+    marginBottom: 4 
+  },
+  commentText: { 
+    fontSize: 16, 
+    marginBottom: 4 
+  },
+  commentDate: { 
+    fontSize: 12, 
+    opacity: 0.6 
+  },
+
+  // Formulario
+  inputRounded: {
+    borderRadius: 10,
+    padding: 12,
+    minHeight: 64,
+    borderWidth: 1,
+    borderColor: '#e3e3e3',
+    marginTop: 10,
+    marginBottom: 10,
+    width: '100%', 
+    alignSelf: 'auto',
   },
   commentButton: {
-    backgroundColor: '#44bd32',
+    backgroundColor: '#9ec5f8',
     borderRadius: 10,
-    paddingVertical: 10,
+    paddingVertical: 14,
     alignItems: 'center',
+    width: '100%',
+    alignSelf: 'center',
+    marginTop: 8,
   },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-   previewSection: {
-    backgroundColor: '#f1f2f6',
-    marginTop: 25,
-    padding: 15,
-    width: '85%',
-    borderRadius: 15,
-  },
-  previewTitle: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#273c75',
-    marginBottom: 10,
-  },
-  previewText: {
-    fontSize: 15,
-    color: '#2f3640',
-    marginBottom: 5,
-  },
+  buttonText: { fontWeight: '600' },
+
+  // Estados
+  error: { 
+    color: 'red', 
+    textAlign: 'center', 
+    marginTop: 8 
+  }
 })
+
 
 export default Comentarios
