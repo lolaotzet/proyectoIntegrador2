@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, Pressable, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import { db, auth } from '../firebase/config'
 
-export default class Comentarios extends Component {
+class Comentarios extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      post: null,
       comentarios: [],
       text: '',
       loading: true,
@@ -17,31 +18,39 @@ export default class Comentarios extends Component {
     const postId = this.props.route.params.postId
 
     if (!postId) {
-      this.setState({ loading: false, error: 'Falta postId' });
-    return;
+      this.setState({ loading: false, error: 'Falta postId' })
+    return
     }
+
+    // 1) traemos el post 
+    db.collection('posts')
+      .doc(postId) // viene un unico doc con postId con la data
+      .onSnapshot(docs => {
+        const data = docs.data()
+        this.setState({ post: data })
+      })
+
+    // 2) traemos los comentarios de ese post
     db.collection('comments')
       .where('postId', '==', postId)
       .onSnapshot(
         docs => {
-          let comentarios = [];
+          let comentarios = []
           docs.forEach((doc) => {
             comentarios.push({ 
               id: doc.id, 
               data: doc.data() 
-            });
-          });
-           this.setState({ comentarios: comentarios, loading: false, error: '' });
-        },
-        () => this.setState({ loading: false, error: 'No se pudieron cargar los comentarios' })
-      );
-
+            })
+          })
+          this.setState({ comentarios: comentarios, loading: false, error: '' })
+        }
+      )
   }
   
   handleAdd() {
-    const postId = this.props.route.params.postId
+    const postId = this.props.route.params.postId // viene por params desde Post -> navigate('Comentarios', { postId })
 
-     if (!this.state.text) return
+    if (!this.state.text) return
 
     db.collection('comments')
       .add({
@@ -55,13 +64,30 @@ export default class Comentarios extends Component {
   }
 
   render() {
-    const comentarios = this.state.comentarios;
-    const text = this.state.text;
-    const loading = this.state.loading;
-    const error = this.state.error;
+    const comentarios = this.state.comentarios
+    const text = this.state.text
+    const loading = this.state.loading
+    const error = this.state.error
+    const p = this.state.post ? this.state.post : {}
+
+    const autor = p.email ? p.email : '' //si el post tiene email lo usamo si no queda el string vacio
+    const cuerpo = p.text ? p.text : '' //si el post tiene text lo usamos si no queda el string vacio
+    const likes = p.likes && p.likes.length ? p.likes.length : 0 // si existe el aray likes y tiene elementos toma la cantidad ysi no es 0
+    const postDate = new Date(p.createdAt).toLocaleString()
 
     return (
       <View style={styles.container}>
+
+        {/* Post */}
+
+        <View>
+          <Text>{autor} posteó</Text>
+          <Text>{cuerpo}</Text>
+          <Text>❤️ {likes} likes</Text>
+          <Text>{postDate}</Text> 
+        </View>
+
+        {/* Lista de comentarios del post */}
 
         {loading ? <ActivityIndicator size="large" /> : null}
         {error ? <Text style={styles.error}>{error}</Text> : null}
@@ -78,11 +104,9 @@ export default class Comentarios extends Component {
               <View>
                 <Text>{email}</Text>
                 <Text>{text}</Text>
-                <Text>
-                  {new Date(createdAt).toLocaleString()}
-                </Text> 
+                <Text>{new Date(createdAt).toLocaleString()}</Text> 
               </View>
-            );
+            )
           }}
           ListEmptyComponent={
             !loading && !error ? (
@@ -173,4 +197,6 @@ const styles = StyleSheet.create({
     color: '#2f3640',
     marginBottom: 5,
   },
-});
+})
+
+export default Comentarios

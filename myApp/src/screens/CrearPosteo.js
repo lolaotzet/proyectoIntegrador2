@@ -22,7 +22,7 @@ class NuevoPost extends Component {
     })
     .then(response => {
       this.setState({ text: "", error: "", loading: false });
-      this.props.navigation.navigate("Home");
+      this.props.navigation.navigate("HomeStack");
     })
     .catch(error => this.setState({ error: "No se pudo crear el post" }));
   }
