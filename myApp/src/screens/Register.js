@@ -2,52 +2,46 @@ import React, { Component } from 'react';
 import { db, auth } from '../firebase/config';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 
-export default class Register extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userName: '',
       email: '',
-      password: '',
-      registered:false,
+      password: '',  
       error: ""
     };
-  }
-    componentDidMount(){
-      auth.onAuthStateChanged(user => {
-          if(user){
-              this.props.navigation.navigate('HomeMenu')
-          }
-        })
-    }
+  } 
 
   onSubmit() {
+    if (!this.state.email || !this.state.password || !this.state.userName) {
+      this.setState({ error: 'Completá todos los campos' })
+      return
+    }
+
    auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
-   .then(
-    response => {
-      this.setState({ registered: true})
-         db.collection('users').add(
-        {
+   .then( response => {
+      db.collection('users').add({
           email: this.state.email,
           nombreUsuario: this.state.userName,
           createdAt: Date.now()
-        }
-      )
-      .then()
+      })
+      .then(() => {
+        // cerramos sesión para que no quede logueado automáticamente
+        return auth.signOut();
+      })
+      .then(() => {
+        this.props.navigation.navigate('Login');
+      })
       .catch(error => console.log(error))
     }
-   )
-   .catch(
-    error => {
+    )
+    .catch( error => {
       this.setState({error:"fallo en el registro"})
-    }
-   )
+    })
   }
 
-  render() {
-      if(this.state.registered){
-         this.props.navigation.navigate('Login')
-      }
+  render() {  
     return (
       <View style={styles.container}>
         <View style={styles.card}>
@@ -75,7 +69,9 @@ export default class Register extends Component {
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
           />
-        <Text styles={styles.errorText}>{this.state.error}</Text>
+
+          <Text style={styles.errorText}>{this.state.error}</Text>
+
           <Pressable style={styles.registerButton} onPress={() => this.onSubmit()}>
             <Text style={styles.buttonText}>Registrarme</Text>
           </Pressable>
@@ -85,6 +81,7 @@ export default class Register extends Component {
             onPress={() => this.props.navigation.navigate('Login')}>
             <Text style={styles.buttonText}>Ya tengo cuenta</Text>
           </Pressable>
+          
         </View>
       </View>
     );
@@ -148,3 +145,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default Register

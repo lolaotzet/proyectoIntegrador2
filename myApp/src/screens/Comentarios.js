@@ -83,7 +83,14 @@ export default class Comentarios extends Component {
                 </Text> 
               </View>
             );
-          }}   
+          }}
+          ListEmptyComponent={
+            !loading && !error ? (
+              <Text>
+              Aún no hay comentarios
+              </Text>
+            ) : null
+          }   
         />
 
         <View style={styles.form}>

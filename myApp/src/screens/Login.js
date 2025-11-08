@@ -69,7 +69,7 @@ export default class Login extends Component {
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
           />
-          <Text styles={styles.errorText}>{this.state.error}</Text>
+          <Text style={styles.errorText}>{this.state.error}</Text>
           <Pressable style={styles.loginButton} onPress={() => this.onSubmit()}>
             <Text style={styles.loginText}>Log in</Text>
           </Pressable>
