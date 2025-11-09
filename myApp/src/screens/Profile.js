@@ -43,14 +43,14 @@ class Profile extends Component {
       <View style={styles.page}>
         <View style={styles.card}>
         <Text style={styles.title}>Mi Perfil</Text>
-        <Text>Usuario:{this.state.nombreUsuario}</Text>
-        <Text>Email:{user.email}</Text>
+        <Text>Usuario: {this.state.nombreUsuario}</Text>
+        <Text>Email: {user.email}</Text>
         <Text>Mis posteos</Text>
-        <FlatList
+        {this.state.posts.length===0 ?  ( <Text>Aún no se han realizado posteos.</Text>) : ( <FlatList
         data={this.state.posts}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => <Text>{item.data.text} </Text>}>
-        </FlatList>
+        </FlatList>)}
         <Pressable style={styles.btnOrange} onPress={() => this.logout()}> 
           <Text style={styles.btnTxt}>Cerrar Sesión</Text>
         </Pressable>
