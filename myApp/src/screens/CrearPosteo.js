@@ -51,17 +51,73 @@ class NuevoPost extends Component {
 }
 
 const styles = StyleSheet.create({
-  page:{ flex:1, padding:16, backgroundColor:"#fff" },
-  card:{ backgroundColor:"#f2f2f2", borderRadius:12, padding:16, gap:12 },
-  title:{ fontSize:30, fontWeight:"800" },
-  field:{
-    backgroundColor:"#fff", borderRadius:10, paddingHorizontal:12, paddingVertical:10,
-    borderWidth:1, borderColor:"#ddd", minHeight:110, textAlignVertical:"top"
+  page: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#f5f6fa',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  
-  btnOrange:{ paddingVertical:12, borderRadius:10, alignItems:"center", backgroundColor:"#f4a62a" },
-  btnTxt:{ color:"#000", fontWeight:"600" },
-  error:{ color:"#b00020", fontWeight:"700" }
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 25,
+    width: '90%',
+    maxWidth: 500,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#2f3640',
+    marginBottom: 15,
+    textAlign: 'center', // centrado
+  },
+  field: {
+    backgroundColor: '#f9f9f9',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    minHeight: 110,
+    textAlignVertical: 'top',
+    width: '100%',
+    fontSize: 16,
+    color: '#2f3640',
+  },
+  btnOrange: {
+    backgroundColor: '#D81B60', // rosa fuerte (coherente con Register/Login)
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    marginTop: 10,
+    width: '100%',
+  },
+  btnTxt: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  errorBox: {
+    backgroundColor: '#F8BBD0', // rosa claro para error
+    borderRadius: 10,
+    padding: 8,
+    marginBottom: 8,
+    width: '100%',
+    alignItems: 'center',
+  },
+  error: {
+    color: '#D81B60',
+    fontWeight: '600',
+    textAlign: 'center',
+  },
 });
+
 
 export default NuevoPost;

@@ -119,12 +119,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   loginButton: {
-    backgroundColor: '#44bd32',
+    backgroundColor: '#D81B60', // rosa fuerte
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 10,
-    marginTop:10,
+    marginTop: 10,
     width: '90%',
     alignItems: 'center',
   },
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonR: {
-    backgroundColor: '#40739e',
+    backgroundColor: '#8E24AA', // lila / violeta
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonA: {
-    backgroundColor: 'orange',
+    backgroundColor: '#F48FB1', // rosa suave (por si la usás más adelante)
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -157,7 +157,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   errorText: {
-    marginTop:20,
-     marginBottom:20
-  }
+    marginTop: 20,
+    marginBottom: 20,
+    color: '#D81B60', // mismo tono rosa para los errores
+    fontWeight: '500',
+  },
 });
