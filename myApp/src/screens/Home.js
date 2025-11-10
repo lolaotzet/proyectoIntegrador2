@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import { db } from "../firebase/config";
 import Post from "../components/Post";
 
@@ -28,21 +28,23 @@ class Home extends Component {
         });
   }
 
-  
-
   render() {
     return (
       <View style={styles.page}>
         <View style={styles.card}>
-          <Text style={styles.title}>Home</Text>
+          <Text style={styles.title}>Posteos</Text>
 
-          <FlatList
-            data={this.state.posts}
-            keyExtractor={(item)=>item.id.toString()}
-            renderItem={({item}) =>
-              <Post id={item.id} post={item.data} navigation={this.props.navigation}/> 
-            }
-          />
+          {this.state.loading ? (
+            <ActivityIndicator size="large" color="#8E24AA" />
+          ) : (
+            <FlatList
+              data={this.state.posts}
+              keyExtractor={(item)=>item.id.toString()}
+              renderItem={({item}) =>
+                <Post id={item.id} post={item.data} navigation={this.props.navigation}/> 
+              }
+            />
+          )}
         </View>
       </View>
     );
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
   page: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f5f6fa', // mismo fondo claro
+    backgroundColor: '#f5f6fa', 
   },
   card: {
     backgroundColor: '#fff',
@@ -71,11 +73,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: '800',
-    color: '#8E24AA', // lila (mismo tono de los botones secundarios)
+    color: '#8E24AA', 
     marginBottom: 8,
   },
 });
-
-
 
 export default Home;

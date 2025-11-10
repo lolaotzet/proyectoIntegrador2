@@ -73,7 +73,7 @@ class Comentarios extends Component {
     const autor = p.email ? p.email : '' //si el post tiene email lo usamo si no queda el string vacio
     const cuerpo = p.text ? p.text : '' //si el post tiene text lo usamos si no queda el string vacio
     const likes = p.likes && p.likes.length ? p.likes.length : 0 // si existe el aray likes y tiene elementos toma la cantidad ysi no es 0
-    const postDate = new Date(p.createdAt).toLocaleString()
+
 
     return (
       <View style={styles.panel}>
@@ -83,13 +83,18 @@ class Comentarios extends Component {
           <Text style={styles.postTop}>{autor} posteó</Text>
           <Text style={styles.postText}>{cuerpo}</Text>
           <Text style={styles.postLikes}>❤️ {likes} likes</Text>
-          <Text style={styles.postMeta}>{postDate}</Text> 
         </View>
 
         {/* Lista de comentarios del post */}
 
         {loading ? <ActivityIndicator size="large" /> : null}
         {error ? <Text style={styles.error}>{error}</Text> : null}
+
+        {!loading && !error && comentarios.length === 0 ? (
+          <Text>Aún no hay comentarios</Text>
+        ) : null}
+
+        {comentarios.length > 0 ? (
 
         <FlatList
           data={comentarios}
@@ -103,19 +108,13 @@ class Comentarios extends Component {
               <View style={styles.commentBox}>
                 <Text style={styles.commentEmail}>{email}</Text>
                 <Text style={styles.commentText}>{text}</Text>
-                <Text style={styles.commentDate}>{new Date(createdAt).toLocaleString()}</Text> 
+                <Text style={styles.commentDate}>{createdAt}</Text> 
               </View>
             )
           }}
-          ListEmptyComponent={
-            !loading && !error ? (
-              <Text>
-              Aún no hay comentarios
-              </Text>
-            ) : null
-          }   
-        />
-
+          />
+          ) : null}   
+        
         <View style={styles.form}>
           <TextInput
             placeholder="Escribí tu comentario..."

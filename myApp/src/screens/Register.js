@@ -13,6 +13,14 @@ class Register extends Component {
     };
   } 
 
+    componentDidMount(){
+      auth.onAuthStateChanged(user => {
+          if(user){
+              this.props.navigation.navigate('HomeMenu')
+          }
+        })
+    }
+
   onSubmit() {
     if (!this.state.email || !this.state.password || !this.state.userName) {
       this.setState({ error: 'Completá todos los campos' })
