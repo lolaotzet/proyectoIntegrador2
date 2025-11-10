@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
 import { auth } from '../firebase/config';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      userName: '',
       password: '',
-      login: false,
       error:""
     };
   }
@@ -34,20 +32,17 @@ export default class Login extends Component {
     auth.signInWithEmailAndPassword(this.state.email, this.state.password)
        .then(
         response => {
-          this.setState({ login: true})
+          this.setState({ error: ''})
         }
        )
        .catch(
         error => {
-          this.setState({error:"Credenciales invalidas"})
+          this.setState({error:"Credenciales inválidas"})
         }
        )
   }
 
   render() {
-     if(this.state.login){
-         this.props.navigation.navigate('HomeMenu')
-      }
     return (
       <View style={styles.container}>
         <View style={styles.card}>
@@ -91,75 +86,66 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f6fa',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 16,
   },
   card: {
     backgroundColor: '#fff',
-    borderRadius: 20,
-    width: '50%',
-    padding: 25,
-    alignItems: 'center',
+    borderRadius: 24,
+    padding: 24,
+    width: '92%', 
+    maxWidth: 700,     
+    alignSelf: 'center', 
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
   },
   title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: '800',
+    marginBottom: 16,
     color: '#2f3640',
+    textAlign: 'center',
   },
   input: {
-    width: '90%',
-    height: 45,
-    borderColor: '#ccc',
+    width: '100%',     
+    height: 48,
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    marginBottom: 15,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    marginBottom: 12,
     fontSize: 16,
     color: '#2f3640',
     backgroundColor: '#f9f9f9',
   },
   loginButton: {
-    backgroundColor: '#D81B60', // rosa fuerte
+    backgroundColor: '#D81B60',
     borderRadius: 10,
-    paddingVertical: 10,
+    paddingVertical: 14,
     paddingHorizontal: 20,
+    marginTop: 12,
     marginBottom: 10,
-    marginTop: 10,
-    width: '90%',
+    width: '100%',    
     alignItems: 'center',
   },
-  loginText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+  loginText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
   buttonR: {
-    backgroundColor: '#8E24AA', // lila / violeta
+    backgroundColor: '#8E24AA',
     borderRadius: 10,
-    paddingVertical: 10,
+    paddingVertical: 14,
     paddingHorizontal: 20,
     marginVertical: 8,
-    width: '90%',
+    width: '100%',     
     alignItems: 'center',
   },
-  buttonA: {
-    backgroundColor: '#F48FB1', // rosa suave (por si la usás más adelante)
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginVertical: 8,
-    width: '90%',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+  buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
   errorText: {
-    marginTop: 20,
-    marginBottom: 20,
-    color: '#D81B60', // mismo tono rosa para los errores
+    marginTop: 12,
+    marginBottom: 8,
+    color: '#D81B60',
     fontWeight: '500',
+    textAlign: 'center',
   },
 });
+
+export default Login

@@ -8,6 +8,14 @@ class NuevoPost extends Component {
     this.state = { text: "", error: "", loading: true };
   }
 
+  componentDidMount(){
+    auth.onAuthStateChanged(user => {
+      if(!user){
+        this.props.navigation.navigate('Login')
+      }
+    })
+  }
+
   onSubmit(){
     if(this.state.text.length === 0){
       this.setState({ error: "El mensaje no puede estar vacío" });
@@ -63,7 +71,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 25,
     width: '90%',
-    maxWidth: 500,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -71,7 +78,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   title: {
-    fontSize: 26,
+    fontSize: 30,
     fontWeight: 'bold',
     color: '#8E24AA',
     marginBottom: 15,

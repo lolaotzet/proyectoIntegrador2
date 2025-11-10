@@ -74,7 +74,7 @@ class Post extends Component {
 const styles = StyleSheet.create({
   row:{
     backgroundColor:"#fff", borderRadius:10, padding:16,
-    borderWidth:1, borderColor:"#e6e6e6", marginVertical:8
+    borderWidth:1, borderColor:"#e6e6e6", marginBottom:6
   },
   email:{ fontWeight:"700", marginBottom:6 },
   text:{ color:"#333", lineHeight:20 }

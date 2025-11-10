@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, Pressable,  StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home';
 import HomeStack from '../components/HomeStack'
 import Profile from '../screens/Profile';
 import CrearPosteo from '../screens/CrearPosteo'

@@ -9,7 +9,15 @@ class Profile extends Component {
   }
 
   componentDidMount() {
+    
+    auth.onAuthStateChanged(user => {
+      if(!user){
+        this.props.navigation.navigate('Login')
+      }
+    })
+    
     const user = auth.currentUser;
+    
     if (user) {
       db.collection("posts").where("email", "==", user.email).onSnapshot((doc) => {
         let posts = [];
@@ -41,14 +49,15 @@ class Profile extends Component {
     return (
       <View style={styles.page}>
         <View style={styles.card}>
-          <Text style={styles.subtitle}>Mi Perfil</Text>
-  <Text style={styles.infoText}>
-    <Text style={styles.infoLabel}>Usuario:</Text> {this.state.nombreUsuario}
-  </Text>
-  <Text style={styles.infoText}>
-    <Text style={styles.infoLabel}>Email:</Text> {user.email}
-  </Text>
-<Text style={styles.subtitle}>Mis posteos</Text>
+          <Text style={styles.title}>Mi Perfil</Text>
+          <Text style={styles.infoText}>
+            <Text style={styles.infoLabel}>Usuario:</Text> {this.state.nombreUsuario}
+          </Text>
+          <Text style={styles.infoText}>
+            <Text style={styles.infoLabel}>Email:</Text> {user.email}
+          </Text>
+          <Text style={styles.subtitle}>Mis posteos</Text>
+
           {this.state.posts.length === 0 ? (
             <Text>Aún no se han realizado posteos.</Text>
           ) : (
@@ -65,6 +74,7 @@ class Profile extends Component {
               )}
             />
           )}
+          
           <Pressable style={styles.btnOrange} onPress={() => this.logout()}>
             <Text style={styles.btnTxt}>Cerrar Sesión</Text>
           </Pressable>
@@ -87,10 +97,11 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: "800",
     color: "#333",
     marginBottom: 10,
+    color: "#8E24AA",
   },
   postCard: {
     backgroundColor: "#fff",
@@ -98,11 +109,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#ddd",
     padding: 14,
-    marginVertical: 8,
+    marginBottom: 8,
     shadowColor: "#000",
     shadowOpacity: 0.05,
     shadowRadius: 3,
-    elevation: 2,
   },
   postHeader: {
     fontSize: 13,
@@ -113,26 +123,24 @@ const styles = StyleSheet.create({
   postText: {
     fontSize: 16,
     color: "#222",
-    marginBottom: 8,
   },
   btnOrange: {
     marginTop: 10,
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: "center",
-    backgroundColor: "#D81B60", // color original
+    backgroundColor: "#D81B60", 
   },
   btnTxt: {
-    color: "#000",
+    color: "white",
     fontWeight: "600",
   },
   subtitle: {
-  fontSize: 20,
-  fontWeight: "700",
-  color: "#8E24AA",
-  marginTop: 10,
-  marginBottom: 6,
-},
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#8E24AA",
+    marginTop: 10,
+  },
 infoBox: {
   backgroundColor: "#fff",
   borderRadius: 12,

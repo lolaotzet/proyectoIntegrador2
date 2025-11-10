@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from "react-native";
-import { db } from "../firebase/config";
+import { db, auth } from "../firebase/config";
 import Post from "../components/Post";
 
 class Home extends Component {
@@ -10,6 +10,13 @@ class Home extends Component {
   }
 
   componentDidMount(){
+
+    auth.onAuthStateChanged(user => {
+          if(!user){
+            this.props.navigation.navigate('Login')
+          }
+        })
+
     db.collection("posts")
         .orderBy('createdAt','desc')
         .onSnapshot(
@@ -32,7 +39,7 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.page}>
-        <Text style={styles.title}>Home</Text>
+        <Text style={styles.title}>Posteos</Text>
 
          {this.state.loading ? (
             <ActivityIndicator size="large" color="#8E24AA" />
@@ -63,6 +70,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#8E24AA', // lila consistente con el resto
     marginBottom: 12,
+    marginTop: 10,
     paddingHorizontal: 8,
   },
   listContent: {
