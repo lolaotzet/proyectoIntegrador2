@@ -29,21 +29,20 @@ class Home extends Component {
   }
 
   
-
   render() {
     return (
       <View style={styles.page}>
-        <View style={styles.card}>
-          <Text style={styles.title}>Home</Text>
+        <Text style={styles.title}>Home</Text>
 
-          <FlatList
-            data={this.state.posts}
-            keyExtractor={(item)=>item.id.toString()}
-            renderItem={({item}) =>
-              <Post id={item.id} post={item.data} navigation={this.props.navigation}/> 
-            }
-          />
-        </View>
+        <FlatList
+          data={this.state.posts}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <Post id={item.id} post={item.data} navigation={this.props.navigation} />
+          )}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false} // opcional: quita la barra de scroll
+        />
       </View>
     );
   }
@@ -52,27 +51,18 @@ class Home extends Component {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
+    backgroundColor: '#f5f6fa',
     padding: 16,
-    backgroundColor: '#f5f6fa', // mismo fondo claro
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 25,
-    width: '92%',
-    alignSelf: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 2,
-    gap: 12,
   },
   title: {
     fontSize: 30,
     fontWeight: '800',
-    color: '#8E24AA', // lila (mismo tono de los botones secundarios)
-    marginBottom: 8,
+    color: '#8E24AA', // lila consistente con el resto
+    marginBottom: 12,
+    paddingHorizontal: 8,
+  },
+  listContent: {
+    paddingBottom: 100, // espacio extra al final para evitar que el último post quede tapado
   },
 });
 
