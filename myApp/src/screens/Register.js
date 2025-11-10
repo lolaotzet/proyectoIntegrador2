@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   registerButton: {
-    backgroundColor: '#D81B60', // rosa fuerte
+    backgroundColor: '#273c75',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backButton: {
-    backgroundColor: '#8E24AA', // lila/violeta
+    backgroundColor: 'orange',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -154,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default Register
