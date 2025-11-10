@@ -40,7 +40,7 @@ class Home extends Component {
             data={this.state.posts}
             keyExtractor={(item)=>item.id.toString()}
             renderItem={({item}) =>
-              <Post id={item.id} post={item.data} navigation={this.props.navigation}/> // a Post le llega una prop post que contiene el objeto id, text, email y createdAt
+              <Post id={item.id} post={item.data} navigation={this.props.navigation}/> 
             }
           />
         </View>
@@ -50,9 +50,32 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-  page:{ flex:1, padding:16, backgroundColor:"#fff" },
-  card:{ backgroundColor:"#f2f2f2", borderRadius:12, padding:16, gap:12 },
-  title:{ fontSize:30, fontWeight:"800" }
+  page: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#f5f6fa', // mismo fondo claro
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 25,
+    width: '92%',
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 2,
+    gap: 12,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: '800',
+    color: '#8E24AA', // lila (mismo tono de los botones secundarios)
+    marginBottom: 8,
+  },
 });
+
+
 
 export default Home;
