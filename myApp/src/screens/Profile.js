@@ -61,6 +61,7 @@ class Profile extends Component {
           {this.state.posts.length === 0 ? (
             <Text>Aún no se han realizado posteos.</Text>
           ) : (
+             <View style={styles.Scroll}>
             <FlatList
               data={this.state.posts}
               keyExtractor={(item) => item.id.toString()}
@@ -73,6 +74,7 @@ class Profile extends Component {
                 </View>
               )}
             />
+            </View>
           )}
           
           <Pressable style={styles.btnOrange} onPress={() => this.logout()}>
@@ -162,6 +164,10 @@ infoLabel: {
   fontWeight: "700",
   color: "#D81B60",
 },
+Scroll:{
+  flex:1,
+  maxHeight: 300
+}
 });
 
 export default Profile;

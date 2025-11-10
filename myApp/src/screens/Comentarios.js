@@ -29,15 +29,13 @@ class Comentarios extends Component {
     return
     }
 
-    // 1) traemos el post 
     db.collection('posts')
-      .doc(postId) // viene un unico doc con postId con la data
+      .doc(postId) 
       .onSnapshot(docs => {
         const data = docs.data()
         this.setState({ post: data })
       })
 
-    // 2) traemos los comentarios de ese post
     db.collection('comments')
       .where('postId', '==', postId)
       .onSnapshot(
@@ -55,7 +53,7 @@ class Comentarios extends Component {
   }
   
   handleAdd() {
-    const postId = this.props.route.params.postId // viene por params desde Post -> navigate('Comentarios', { postId })
+    const postId = this.props.route.params.postId 
 
     if (!this.state.text) return
 
@@ -77,22 +75,18 @@ class Comentarios extends Component {
     const error = this.state.error
     const p = this.state.post ? this.state.post : {}
 
-    const autor = p.email ? p.email : '' //si el post tiene email lo usamo si no queda el string vacio
-    const cuerpo = p.text ? p.text : '' //si el post tiene text lo usamos si no queda el string vacio
-    const likes = p.likes && p.likes.length ? p.likes.length : 0 // si existe el aray likes y tiene elementos toma la cantidad ysi no es 0
+    const autor = p.email ? p.email : '' 
+    const cuerpo = p.text ? p.text : '' 
+    const likes = p.likes && p.likes.length ? p.likes.length : 0 
 
 
     return (
       <View style={styles.panel}>
-
-        {/* Post */}
         <View style={styles.postCard}>
           <Text style={styles.postTop}>{autor} posteó</Text>
           <Text style={styles.postText}>{cuerpo}</Text>
           <Text style={styles.postLikes}>❤️ {likes} likes</Text>
         </View>
-
-        {/* Lista de comentarios del post */}
 
         {loading ? <ActivityIndicator size="large" /> : null}
         {error ? <Text style={styles.error}>{error}</Text> : null}
@@ -103,23 +97,25 @@ class Comentarios extends Component {
 
         {comentarios.length > 0 ? (
 
-        <FlatList
-          data={comentarios}
-          keyExtractor={(item)=>item.id.toString()}
-          renderItem={({ item }) => {
-            const email = item.data.email
-            const text = item.data.text
-            const createdAt = item.data.createdAt
+       <View style={styles.Scroll}>
+  <FlatList
+    data={comentarios}
+    keyExtractor={(item) => item.id.toString()}
+    renderItem={({ item }) => {
+      const email = item.data.email;
+      const text = item.data.text;
+      const createdAt = item.data.createdAt;
 
-            return (
-              <View style={styles.commentBox}>
-                <Text style={styles.commentEmail}>{email}</Text>
-                <Text style={styles.commentText}>{text}</Text>
-                <Text style={styles.commentDate}>{createdAt}</Text> 
-              </View>
-            )
-          }}
-          />
+      return (
+        <View style={styles.commentBox}>
+          <Text style={styles.commentEmail}>{email}</Text>
+          <Text style={styles.commentText}>{text}</Text>
+          <Text style={styles.commentDate}>{createdAt}</Text>
+        </View>
+      );
+    }}
+  />
+</View>
           ) : null}   
         
         <View style={styles.form}>
@@ -155,8 +151,10 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 2,
   },
-
-  // Post (encabezado dentro del panel)
+  Scroll:{
+    flex: 1,
+    maxHeight: 300
+  },
   postCard: {
     paddingVertical: 8,
     marginBottom: 12,
@@ -183,8 +181,6 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     color: '#555',
   },
-
-  // Comentarios
   commentBox: {
     borderRadius: 10,
     padding: 14,
@@ -212,7 +208,6 @@ const styles = StyleSheet.create({
     color: '#666',
   },
 
-  // Formulario
   inputRounded: {
     borderRadius: 10,
     padding: 12,
@@ -245,8 +240,6 @@ const styles = StyleSheet.create({
     color: '#fff', 
     fontSize: 16,
   },
-
-  // Estados
   error: { 
     color: '#D81B60', 
     textAlign: 'center', 

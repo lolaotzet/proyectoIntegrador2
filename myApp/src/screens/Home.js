@@ -44,15 +44,15 @@ class Home extends Component {
          {this.state.loading ? (
             <ActivityIndicator size="large" color="#8E24AA" />
           ) : (
+             <View style={styles.Scroll}>
             <FlatList
               data={this.state.posts}
               keyExtractor={(item)=>item.id.toString()}
               renderItem={({item}) =>
                 <Post id={item.id} post={item.data} navigation={this.props.navigation}/> 
               }
-              contentContainerStyle={styles.listContent}
-              showsVerticalScrollIndicator={false} // opcional: quita la barra de scroll
             />
+            </View>
           )}
       </View>
     );
@@ -68,14 +68,15 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: '800',
-    color: '#8E24AA', // lila consistente con el resto
+    color: '#8E24AA', 
     marginBottom: 12,
     marginTop: 10,
     paddingHorizontal: 8,
   },
-  listContent: {
-    paddingBottom: 100, // espacio extra al final para evitar que el último post quede tapado
-  },
+ Scroll:{
+  flex:1, 
+  maxHeight: 1000
+ }
 });
 
 export default Home;

@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#8E24AA',
     marginBottom: 15,
-    textAlign: 'center', // centrado
+    textAlign: 'center', 
   },
   field: {
     backgroundColor: '#f9f9f9',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     color: '#2f3640',
   },
   btnOrange: {
-    backgroundColor: '#D81B60', // rosa fuerte (coherente con Register/Login)
+    backgroundColor: '#D81B60', 
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -112,8 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   errorBox: {
-    backgroundColor: '#F8BBD0', // rosa claro para error
-    borderRadius: 10,
+    backgroundColor: '#F8BBD0', 
     padding: 8,
     marginBottom: 8,
     width: '100%',
