@@ -80,19 +80,20 @@ class Comentarios extends Component {
           }
 
          {this.state.comentarios.length > 0 && (
-  <View style={styles.scroll}>
-    <FlatList
-      data={this.state.comentarios}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => (
-        <View style={styles.commentBox}>
-          <Text style={styles.commentEmail}>{item.data.email}</Text>
-          <Text style={styles.commentText}>{item.data.text}</Text>
-        </View>
-      )}
-    />
-  </View>
-)}
+            <View style={styles.scroll}>
+              <FlatList
+                data={this.state.comentarios}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <View style={styles.commentBox}>
+                    <Text style={styles.commentEmail}>{item.data.email}</Text>
+                    <Text style={styles.commentText}>{item.data.text}</Text>
+                  </View>
+                )}
+              />
+            </View>
+          )}
+          
           <Text style={styles.error}>{this.state.error}</Text> 
 
           <View style={styles.form}>

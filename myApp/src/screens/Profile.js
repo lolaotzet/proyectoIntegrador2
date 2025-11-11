@@ -55,19 +55,19 @@ class Profile extends Component {
           {this.state.posts.length === 0 ? (
             <Text>Aún no se han realizado posteos.</Text>
           ) : (
-             <View style={styles.scroll}>
-            <FlatList
-              data={this.state.posts}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.postCard}>
-                  <Text style={styles.postHeader}>
-                    {item.data.email} posteó
-                  </Text>
-                  <Text>{item.data.text}</Text>
-                </View>
-              )}
-            />
+            <View style={styles.scroll}>
+                <FlatList
+                  data={this.state.posts}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderItem={({ item }) => (
+                      <View style={styles.postCard}>
+                        <Text style={styles.postHeader}>
+                        {item.data.email} posteó
+                        </Text>
+                        <Text>{item.data.text}</Text>
+                      </View>
+                  )}
+                  />
             </View>
           )}
           
@@ -76,9 +76,7 @@ class Profile extends Component {
           </Pressable>
         </View>
       </View>
-            )
-          )
-  }
+      ))}
 }
 
 const styles = StyleSheet.create({
