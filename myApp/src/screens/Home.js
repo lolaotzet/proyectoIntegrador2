@@ -1,21 +1,15 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from "react-native";
-import { db, auth } from "../firebase/config";
-import Post from "../components/Post";
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from "react-native"
+import { db, auth } from "../firebase/config"
+import Post from "../components/Post"
 
 class Home extends Component {
   constructor(props){
     super(props);
-    this.state = { posts: [], loading: true };
+    this.state = { posts: [], loading: true }
   }
 
   componentDidMount(){
-
-    auth.onAuthStateChanged(user => {
-          if(!user){
-            this.props.navigation.navigate('Login')
-          }
-        })
 
     db.collection("posts")
         .orderBy('createdAt','desc')
@@ -31,8 +25,8 @@ class Home extends Component {
         this.setState({ 
             posts: posts,
             loading: false 
-        });
-        });
+        })
+        })
   }
 
   
@@ -44,7 +38,7 @@ class Home extends Component {
          {this.state.loading ? (
             <ActivityIndicator size="large" color="#8E24AA" />
           ) : (
-             <View style={styles.Scroll}>
+             <View style={styles.scroll}>
             <FlatList
               data={this.state.posts}
               keyExtractor={(item)=>item.id.toString()}
@@ -73,10 +67,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 8,
   },
- Scroll:{
+ scroll:{
   flex:1, 
   maxHeight: 1000
  }
-});
+})
 
-export default Home;
+export default Home

@@ -5,15 +5,7 @@ import { db, auth } from "../firebase/config";
 class NuevoPost extends Component {
   constructor(props){
     super(props);
-    this.state = { text: "", error: "", loading: true };
-  }
-
-  componentDidMount(){
-    auth.onAuthStateChanged(user => {
-      if(!user){
-        this.props.navigation.navigate('Login')
-      }
-    })
+    this.state = { text: "", error: ""};
   }
 
   onSubmit(){
@@ -29,7 +21,7 @@ class NuevoPost extends Component {
       createdAt: Date.now()
     })
     .then(response => {
-      this.setState({ text: "", error: "", loading: false });
+      this.setState({ text: "", error: "" });
       this.props.navigation.navigate("HomeStack");
     })
     .catch(error => this.setState({ error: "No se pudo crear el post" }));
@@ -74,7 +66,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
   },
   title: {
@@ -124,6 +115,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
 
 export default NuevoPost;

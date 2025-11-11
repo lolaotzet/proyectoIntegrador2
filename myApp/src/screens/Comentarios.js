@@ -1,38 +1,26 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, Pressable, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import React, { Component } from 'react'
+import { View, Text, TextInput, Pressable, FlatList, ActivityIndicator, StyleSheet } from 'react-native'
 import { db, auth } from '../firebase/config'
+import { Ionicons } from '@expo/vector-icons'
 
 class Comentarios extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       post: null,
       comentarios: [],
       text: '',
-      loading: true,
       error: ''
-    };
+    }
   }
 
   componentDidMount() {
-    auth.onAuthStateChanged(user => {
-      if (!user) {
-        this.props.navigation.navigate('Login');
-      }
-    });
-
-    const postId = this.props.route.params.postId;
-
-    if (!postId) {
-      this.setState({ loading: false, error: 'Falta postId' });
-      return;
-    }
+    const postId = this.props.route.params.postId
 
     db.collection('posts')
       .doc(postId)
       .onSnapshot(docs => {
-        const data = docs.data();
-        this.setState({ post: data });
+        this.setState({ post: docs.data() })
       });
 
     db.collection('comments')
@@ -45,14 +33,17 @@ class Comentarios extends Component {
             data: doc.data()
           });
         });
-        this.setState({ comentarios: comentarios, loading: false, error: '' });
+        this.setState({ comentarios: comentarios, error: '' })
       });
   }
 
   handleAdd() {
-    const postId = this.props.route.params.postId;
+    const postId = this.props.route.params.postId
 
-    if (!this.state.text) return;
+    if(!this.state.text) {
+      this.setState({ error: 'Escribí un comentario' })
+      return
+    }
 
     db.collection('comments')
       .add({
@@ -62,7 +53,7 @@ class Comentarios extends Component {
         createdAt: Date.now(),
       })
       .then(() => this.setState({ text: '', error: '' }))
-      .catch(() => this.setState({ error: 'No se pudo comentar' }));
+      .catch(() => this.setState({ error: 'No se pudo comentar' }))
   }
 
   render() {
@@ -75,17 +66,24 @@ class Comentarios extends Component {
           <View style={styles.postCard}>
             <Text style={styles.postTop}>{this.state.post.email} posteó</Text>
             <Text style={styles.postText}>{this.state.post.text}</Text>
-            <Text style={styles.postLikes}>❤️ {this.state.post.likes.length} likes</Text>
+            
+            <View style={styles.likeRow}>
+                <Ionicons
+                  name={this.state.post.likes.includes(auth.currentUser.email) ? 'heart' : 'heart-outline'}
+                  size={20}
+                  color={this.state.post.likes.includes(auth.currentUser.email) ? '#D81B60' : '#979797'}
+                />
+                <Text style={styles.likeCount}>{this.state.post.likes.length}</Text>
+            </View>
+
           </View>
 
-          {this.state.error ? <Text style={styles.error}>{this.state.error}</Text> : null}
-
-          {!this.state.loading && !this.state.error && this.state.comentarios.length === 0 ? (
+          {!this.state.error && this.state.comentarios.length === 0 ? (
             <Text>Aún no hay comentarios</Text>
           ) : null}
 
           {this.state.comentarios.length > 0 ? (
-            <View style={styles.Scroll}>
+            <View style={styles.scroll}>
               <FlatList
                 data={this.state.comentarios}
                 keyExtractor={(item) => item.id.toString()}
@@ -95,7 +93,6 @@ class Comentarios extends Component {
                     <View style={styles.commentBox}>
                       <Text style={styles.commentEmail}>{item.data.email}</Text>
                       <Text style={styles.commentText}>{item.data.text}</Text>
-                      <Text style={styles.commentDate}>{item.data.createdAt}</Text>
                     </View>
                   );
                 }}
@@ -103,11 +100,13 @@ class Comentarios extends Component {
             </View>
           ) : null}
 
+          {this.state.error ? <Text style={styles.error}>{this.state.error}</Text> : null}
+
           <View style={styles.form}>
             <TextInput
               placeholder="Escribí tu comentario..."
               value={this.state.text}
-              onChangeText={(v) => this.setState({ text: v })}
+              onChangeText={(v) => this.setState({ text: v, error: "" })}
               style={styles.inputRounded}
               multiline
             />
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 22,
     padding: 16,
-    marginTop: 10,
+    marginTop: 5,
     width: '92%',
     alignSelf: 'center',
     borderWidth: 1,
@@ -134,9 +133,8 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.06,
     shadowRadius: 8,
-    elevation: 2,
   },
-  Scroll: {
+  scroll: {
     flex: 1,
     maxHeight: 300
   },
@@ -216,7 +214,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     shadowColor: '#000',
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 5,
   },
   buttonText: {
@@ -230,6 +227,16 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontWeight: '600',
   },
-});
+  likeRow: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginBottom: 4 
+  },
+  likeCount: { 
+    marginLeft: 6, 
+    fontWeight: '600', 
+    color: '#333' 
+  },
+})
 
-export default Comentarios;
+export default Comentarios

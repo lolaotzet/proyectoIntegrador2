@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
-import { auth } from '../firebase/config';
+import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native'
+import { auth } from '../firebase/config'
 
 class Login extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       email: '',
       password: '',
       error:""
-    };
+    }
   }
   componentDidMount(){
     auth.onAuthStateChanged(user => {
@@ -76,7 +76,7 @@ class Login extends Component {
           </Pressable>
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -128,7 +128,11 @@ const styles = StyleSheet.create({
     width: '100%',    
     alignItems: 'center',
   },
-  loginText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
+  loginText: { 
+    color: '#fff', 
+    fontWeight: 'bold', 
+    fontSize: 16 
+  },
   buttonR: {
     backgroundColor: '#8E24AA',
     borderRadius: 10,
@@ -138,14 +142,18 @@ const styles = StyleSheet.create({
     width: '100%',     
     alignItems: 'center',
   },
-  buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
+  buttonText: { 
+    color: '#fff', 
+    fontWeight: 'bold', 
+    fontSize: 16 
+  },
   errorText: {
     marginTop: 12,
     marginBottom: 8,
     color: '#D81B60',
     fontWeight: '500',
     textAlign: 'center',
-  },
-});
+  }
+})
 
 export default Login

@@ -1,12 +1,12 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import Home from '../screens/Home';
-import Comentarios from '../screens/Comentarios';
-
-const Stack = createNativeStackNavigator();
+import Home from '../screens/Home'
+import Comentarios from '../screens/Comentarios'
 
 function HomeStack() {
+  const Stack = createNativeStackNavigator()
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -19,7 +19,7 @@ function HomeStack() {
         component={Comentarios}
       />
     </Stack.Navigator>
-  );
+  )
 }
 
 export default HomeStack

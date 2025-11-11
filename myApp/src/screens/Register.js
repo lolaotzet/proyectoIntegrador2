@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { db, auth } from '../firebase/config';
-import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+import React, { Component } from 'react'
+import { db, auth } from '../firebase/config'
+import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native'
 
 class Register extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       userName: '',
       email: '',
@@ -13,13 +13,13 @@ class Register extends Component {
     };
   } 
 
-    componentDidMount(){
-      auth.onAuthStateChanged(user => {
-          if(user){
-              this.props.navigation.navigate('HomeMenu')
-          }
-        })
-    }
+  componentDidMount(){
+    auth.onAuthStateChanged(user => {
+        if(user){
+            this.props.navigation.navigate('HomeMenu')
+        }
+      })
+  }
 
   onSubmit() {
     if (!this.state.email || !this.state.password || !this.state.userName) {
@@ -36,7 +36,7 @@ class Register extends Component {
       })
       .then(() => {
         // cerramos sesión para que no quede logueado automáticamente
-        return auth.signOut();
+        return auth.signOut()
       })
       .then(() => {
         this.props.navigation.navigate('Login');
@@ -45,7 +45,7 @@ class Register extends Component {
     }
     )
     .catch( error => {
-      this.setState({error:"fallo en el registro"})
+      this.setState({ error: error.message })
     })
   }
 
@@ -92,7 +92,7 @@ class Register extends Component {
           
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -152,9 +152,17 @@ const styles = StyleSheet.create({
     width: '100%',     
     alignItems: 'center',
   },
-  buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
-  errorText: { marginTop: 12, marginBottom: 8, color: '#D81B60', textAlign: 'center' },
-});
-
+  buttonText: { 
+    color: '#fff', 
+    fontWeight: 'bold', 
+    fontSize: 16 
+  },
+  errorText: { 
+    marginTop: 12, 
+    marginBottom: 8, 
+    color: '#D81B60', 
+    textAlign: 'center' 
+  }
+})
 
 export default Register

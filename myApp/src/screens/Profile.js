@@ -1,51 +1,44 @@
 import React, { Component } from "react";
-import { View, Text, Pressable, StyleSheet, FlatList } from "react-native";
-import { auth, db } from "../firebase/config";
+import { View, Text, Pressable, StyleSheet, FlatList } from "react-native"
+import { auth, db } from "../firebase/config"
 
 class Profile extends Component {
   constructor(props) {
-    super(props);
-    this.state = { posts: [], nombreUsuario: "" };
+    super(props)
+    this.state = { posts: [], nombreUsuario: "" }
   }
 
   componentDidMount() {
     
-    auth.onAuthStateChanged(user => {
-      if(!user){
-        this.props.navigation.navigate('Login')
-      }
-    })
-    
-    const user = auth.currentUser;
+    const user = auth.currentUser
     
     if (user) {
       db.collection("posts").where("email", "==", user.email).onSnapshot((doc) => {
-        let posts = [];
+        let posts = []
         doc.forEach((doc) => {
-          posts.push({ id: doc.id, data: doc.data() });
-        });
+          posts.push({ id: doc.id, data: doc.data() })
+        })
         this.setState({
           posts: posts,
-        });
-      });
+        })
+      })
 
       db.collection("users").where("email", "==", user.email).onSnapshot((doc) => {
-        let nombre = "";
+        let nombre = ""
         doc.forEach((doc) => {
-          nombre = doc.data().nombreUsuario;
+          nombre = doc.data().nombreUsuario
         });
-        this.setState({ nombreUsuario: nombre});
+        this.setState({ nombreUsuario: nombre})
       });
     }
   }
 
   logout() {
-    this.props.navigation.navigate("Login");
-    auth.signOut();
+    this.props.navigation.navigate("Login")
+    auth.signOut()
   }
 
   render() {
-    const user = auth.currentUser;
     return (
       <View style={styles.page}>
         <View style={styles.card}>
@@ -54,14 +47,14 @@ class Profile extends Component {
             <Text style={styles.infoLabel}>Usuario:</Text> {this.state.nombreUsuario}
           </Text>
           <Text style={styles.infoText}>
-            <Text style={styles.infoLabel}>Email:</Text> {user.email}
+            <Text style={styles.infoLabel}>Email:</Text> {auth.currentUser.email}
           </Text>
           <Text style={styles.subtitle}>Mis posteos</Text>
 
           {this.state.posts.length === 0 ? (
             <Text>Aún no se han realizado posteos.</Text>
           ) : (
-             <View style={styles.Scroll}>
+             <View style={styles.scroll}>
             <FlatList
               data={this.state.posts}
               keyExtractor={(item) => item.id.toString()}
@@ -164,10 +157,10 @@ infoLabel: {
   fontWeight: "700",
   color: "#D81B60",
 },
-Scroll:{
+scroll:{
   flex:1,
   maxHeight: 300
 }
-});
+})
 
-export default Profile;
+export default Profile
