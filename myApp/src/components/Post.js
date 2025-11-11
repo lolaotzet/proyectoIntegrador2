@@ -11,7 +11,7 @@ class Post extends Component {
   }
 
   componentDidMount(){
-    this.setState({ liked: this.props.post.likes.includes(auth.currentUser.email) }) // likes viene de la propiedad likes que cree en CrearPost 
+    this.setState({ liked: this.props.post.likes.includes(auth.currentUser.email) }) 
   }
 
   like(){

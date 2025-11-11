@@ -1,19 +1,17 @@
 import React, { Component } from "react";
-import { View, Text, Pressable, StyleSheet, FlatList } from "react-native"
+import { View, Text, Pressable, StyleSheet, FlatList, ActivityIndicator} from "react-native"
 import { auth, db } from "../firebase/config"
 
 class Profile extends Component {
   constructor(props) {
     super(props)
-    this.state = { posts: [], nombreUsuario: "" }
+    this.state = { posts: [], nombreUsuario: "", loading: true }
   }
 
   componentDidMount() {
     
-    const user = auth.currentUser
-    
-    if (user) {
-      db.collection("posts").where("email", "==", user.email).onSnapshot((doc) => {
+    if (auth.currentUser) {
+      db.collection("posts").where("email", "==", auth.currentUser.email).onSnapshot((doc) => {
         let posts = []
         doc.forEach((doc) => {
           posts.push({ id: doc.id, data: doc.data() })
@@ -23,12 +21,12 @@ class Profile extends Component {
         })
       })
 
-      db.collection("users").where("email", "==", user.email).onSnapshot((doc) => {
+      db.collection("users").where("email", "==", auth.currentUser.email).onSnapshot((doc) => {
         let nombre = ""
         doc.forEach((doc) => {
           nombre = doc.data().nombreUsuario
         });
-        this.setState({ nombreUsuario: nombre})
+        this.setState({ nombreUsuario: nombre, loading: false})
       });
     }
   }
@@ -40,7 +38,10 @@ class Profile extends Component {
 
   render() {
     return (
-      <View style={styles.page}>
+      this.state.loading  ? (
+              <ActivityIndicator size="large" color="#8E24AA" />
+            ) : (
+              <View style={styles.page}>
         <View style={styles.card}>
           <Text style={styles.title}>Mi Perfil</Text>
           <Text style={styles.infoText}>
@@ -75,7 +76,8 @@ class Profile extends Component {
           </Pressable>
         </View>
       </View>
-    );
+            )
+          )
   }
 }
 

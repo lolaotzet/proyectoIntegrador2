@@ -15,16 +15,14 @@ class Comentarios extends Component {
   }
 
   componentDidMount() {
-    const postId = this.props.route.params.postId
-
     db.collection('posts')
-      .doc(postId)
+      .doc(this.props.route.params.postId)
       .onSnapshot(docs => {
         this.setState({ post: docs.data() })
       });
 
     db.collection('comments')
-      .where('postId', '==', postId)
+      .where('postId', '==', this.props.route.params.postId)
       .onSnapshot(docs => {
         let comentarios = [];
         docs.forEach((doc) => {
@@ -38,7 +36,6 @@ class Comentarios extends Component {
   }
 
   handleAdd() {
-    const postId = this.props.route.params.postId
 
     if(!this.state.text) {
       this.setState({ error: 'Escribí un comentario' })
@@ -47,7 +44,7 @@ class Comentarios extends Component {
 
     db.collection('comments')
       .add({
-        postId: postId,
+        postId: this.props.route.params.postId,
         text: this.state.text,
         email: auth.currentUser.email,
         createdAt: Date.now(),
@@ -78,29 +75,25 @@ class Comentarios extends Component {
 
           </View>
 
-          {!this.state.error && this.state.comentarios.length === 0 ? (
-            <Text>Aún no hay comentarios</Text>
-          ) : null}
+          {this.state.comentarios.length === 0 && (
+            <Text>Aún no hay comentarios</Text>)
+          }
 
-          {this.state.comentarios.length > 0 ? (
-            <View style={styles.scroll}>
-              <FlatList
-                data={this.state.comentarios}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => {
-
-                  return (
-                    <View style={styles.commentBox}>
-                      <Text style={styles.commentEmail}>{item.data.email}</Text>
-                      <Text style={styles.commentText}>{item.data.text}</Text>
-                    </View>
-                  );
-                }}
-              />
-            </View>
-          ) : null}
-
-          {this.state.error ? <Text style={styles.error}>{this.state.error}</Text> : null}
+         {this.state.comentarios.length > 0 && (
+  <View style={styles.scroll}>
+    <FlatList
+      data={this.state.comentarios}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => (
+        <View style={styles.commentBox}>
+          <Text style={styles.commentEmail}>{item.data.email}</Text>
+          <Text style={styles.commentText}>{item.data.text}</Text>
+        </View>
+      )}
+    />
+  </View>
+)}
+          <Text style={styles.error}>{this.state.error}</Text> 
 
           <View style={styles.form}>
             <TextInput

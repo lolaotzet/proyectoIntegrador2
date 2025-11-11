@@ -35,7 +35,6 @@ class Register extends Component {
           createdAt: Date.now()
       })
       .then(() => {
-        // cerramos sesión para que no quede logueado automáticamente
         return auth.signOut()
       })
       .then(() => {
